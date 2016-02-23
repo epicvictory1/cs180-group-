@@ -38,8 +38,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, and Greenfoot)
  * that would be ruined if solutions were available.
  * 
  * 
- * @author Thomas Vale
- * @version 0.1
+ * @author Thomas Vale, Joshua Hodges, Charlie Dobson
+ * @version 1.1
  */
 public class MyGreep extends Greep
 {
@@ -60,11 +60,13 @@ public class MyGreep extends Greep
     public void act()
     {
         super.act();   // do not delete! leave as first statement in act().
-        int x = Greenfoot.getRandomNumber(2);
+        
         checkFood();
         if (carryingTomato()) {
             if(atShip()) {
                 dropTomato();
+                turnHome();
+                turn(180);
             }
             else {
                 turnHome();
@@ -84,8 +86,8 @@ public class MyGreep extends Greep
             turnTowards(getMemory(1), getMemory(2));
             move();
         }
-        else if (numberOfOpponents(false) > 4) {
-            // Can we see four or more opponents?
+        else if (numberOfOpponents(true) > numberOfFriends(true) || moveWasBlocked()) {
+            // Can we see more opponents than friends, or are we being blocked
             kablam();   
         }
         
@@ -95,12 +97,20 @@ public class MyGreep extends Greep
             checkFood();
         }
     
-        if (atWater() || moveWasBlocked()) {
+        if (atWater()) {
             // If we were blocked, try to move somewhere else
             int r = getRotation();
-            setRotation (r + Greenfoot.getRandomNumber(2) * 180 - 90);
+            int x = 0;
+            while (x < 12) //tries 12 times to turn through 30 degrees, 360 degrees total.
+            {
+                turn(30);
+                move();
+                x++;
+            }    
             move();
-        }       
+            
+        }
+       
     }
     
     /** 
@@ -161,7 +171,6 @@ public class MyGreep extends Greep
         
     }
     
-
    /**
      * This method specifies the name of the greeps (for display on the result board).
      * Try to keep the name short so that it displays nicely on the result board.
