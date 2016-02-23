@@ -67,6 +67,7 @@ public class MyGreep extends Greep
                 dropTomato();
                 turnHome();
                 turn(180);
+                
             }
             else {
                 turnHome();
@@ -101,9 +102,9 @@ public class MyGreep extends Greep
             // If we were blocked, try to move somewhere else
             int r = getRotation();
             int x = 0;
-            while (x < 12) //tries 12 times to turn through 30 degrees, 360 degrees total.
+            while (x < 36) //tries 12 times to turn through 30 degrees, 360 degrees total.
             {
-                turn(30);
+                turn(10);
                 move();
                 x++;
             }    
